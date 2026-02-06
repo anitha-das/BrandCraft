@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BizForge - Branding Tools</title>
+
+  <style>
+    :root {
+      --bg1: #4c1d95;
+      --bg2: #1e40af;
+      --card: rgba(255, 255, 255, 0.12);
+      --card2: rgba(255, 255, 255, 0.18);
+      --text: #ffffff;
+      --muted: rgba(255, 255, 255, 0.8);
+      --border: rgba(255, 255, 255, 0.18);
+      --shadow: 0 18px 50px rgba(0, 0, 0, 0.25);
+      --accent: #22c55e;
+    }
+
+    body.light {
+      --bg1: #eef2ff;
+      --bg2: #dbeafe;
+      --card: rgba(255, 255, 255, 0.75);
+      --card2: rgba(255, 255, 255, 0.95);
+      --text: #0f172a;
+      --muted: rgba(15, 23, 42, 0.7);
+      --border: rgba(15, 23, 42, 0.12);
+      --shadow: 0 18px 50px rgba(15, 23, 42, 0.10);
+      --accent: #16a34a;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      background: linear-gradient(135deg, var(--bg1), var(--bg2));
+      color: var(--text);
+      overflow-x: hidden;
+    }
+
+    a { text-decoration: none; color: inherit; }
+
+    /* NAVBAR */
+    .navbar {
+      position: sticky;
+      top: 0;
+      z-index: 999;
+      width: 100%;
+      padding: 14px 18px;
+      backdrop-filter: blur(16px);
+      background: rgba(0, 0, 0, 0.15);
+      border-bottom: 1px solid var(--border);
+    }
+
+    body.light .navbar {
+      background: rgba(255, 255, 255, 0.55);
+    }
+
+    .nav-inner {
+      max-width: 1200px;
+      margin: auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 900;
+      font-size: 18px;
+    }
+
+    .brand .logo {
+      width: 38px;
+      height: 38px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, #22c55e, #60a5fa);
+      box-shadow: var(--shadow);
+    }
+
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    select, button {
+      border: 1px solid var(--border);
+      background: rgba(255, 255, 255, 0.08);
+      color: var(--text);
+      padding: 10px 12px;
+      border-radius: 14px;
+      outline: none;
+      cursor: pointer;
+      transition: transform 0.2s ease, background 0.2s ease;
+    }
+
+    body.light select, body.light button {
+      background: rgba(255, 255, 255, 0.75);
+    }
+
+    button:hover, select:hover {
+      transform: translateY(-1px);
+      background: rgba(255, 255, 255, 0.12);
+    }
+
+    .back-btn {
+      padding: 10px 14px;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      background: rgba(255, 255, 255, 0.08);
+      font-weight: 700;
+    }
+
+    /* MAIN */
+    .container {
+      max-width: 1200px;
+      margin: auto;
+      padding: 28px 18px 70px;
+    }
+
+    .heading {
+      text-align: center;
+      margin-bottom: 18px;
+    }
+
+    .heading h1 {
+      font-size: clamp(26px, 3vw, 38px);
+      font-weight: 950;
+      letter-spacing: -0.6px;
+    }
+
+    .heading p {
+      margin-top: 8px;
+      color: var(--muted);
+      line-height: 1.6;
+      font-size: 14px;
+    }
+
+    /* TAB BAR */
+    .tabs {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin: 20px 0 22px;
+    }
+
+    .tab-btn {
+      border: 1px solid var(--border);
+      background: rgba(255, 255, 255, 0.08);
+      padding: 10px 14px;
+      border-radius: 999px;
+      font-weight: 800;
+      font-size: 13px;
+      cursor: pointer;
+      transition: 0.2s ease;
+    }
+
+    .tab-btn.active {
+      background: linear-gradient(135deg, #22c55e, #3b82f6);
+      border: none;
+      color: white;
+      box-shadow: var(--shadow);
+    }
+
+    /* TAB CONTENT */
+    .tab-content {
+      display: none;
+      border: 1px solid var(--border);
+      background: var(--card);
+      border-radius: 22px;
+      padding: 18px;
+      box-shadow: var(--shadow);
+      animation: fadeIn 0.25s ease;
+    }
+
+    .tab-content.active { display: block; }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .page-header {
+      margin-bottom: 16px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .page-header h2 {
+      font-size: 20px;
+      font-weight: 950;
+      letter-spacing: -0.4px;
+    }
+
+    .page-header p {
+      margin-top: 6px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    /* FORM */
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin-top: 14px;
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+    }
+
+    .field label {
+      font-size: 13px;
+      font-weight: 800;
+      color: var(--muted);
+    }
+
+    input, textarea {
+      border: 1px solid var(--border);
+      background: rgba(255, 255, 255, 0.08);
+      color: var(--text);
+      padding: 12px 12px;
+      border-radius: 16px;
+      outline: none;
+    }
+
+    body.light input, body.light textarea {
+      background: rgba(255, 255, 255, 0.75);
+    }
+
+    textarea { min-height: 120px; resize: vertical; }
+
+    .full { grid-column: 1 / -1; }
+
+    .actions {
+      margin-top: 14px;
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .primary {
+      background: linear-gradient(135deg, #22c55e, #3b82f6);
+      border: none;
+      color: white;
+      font-weight: 900;
+      padding: 12px 16px;
+      border-radius: 16px;
+      cursor: pointer;
+      box-shadow: var(--shadow);
+    }
+
+    .secondary {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid var(--border);
+      color: var(--text);
+      font-weight: 800;
+      padding: 12px 16px;
+      border-radius: 16px;
+      cursor: pointer;
+    }
+
+    .output {
+      margin-top: 18px;
+      padding: 16px;
+      border-radius: 18px;
+      border: 1px solid var(--border);
+      background: rgba(0, 0, 0, 0.12);
+      color: var(--muted);
+      line-height: 1.6;
+      font-size: 14px;
+      min-height: 70px;
+    }
+
+    body.light .output {
+      background: rgba(255, 255, 255, 0.6);
+    }
+
+    footer {
+      margin-top: 40px;
+      padding: 18px;
+      text-align: center;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    @media (max-width: 900px) {
+      .form-grid { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 560px) {
+      .nav-inner { flex-direction: column; align-items: stretch; }
+      .nav-right { width: 100%; justify-content: center; }
+      select, button { width: 100%; }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- NAVBAR -->
+  <div class="navbar">
+    <div class="nav-inner">
+      <div class="brand">
+        <div class="logo"></div>
+        <span>BizForge Tools</span>
+      </div>
+
+      <div class="nav-right">
+        <a class="back-btn" href="index.html">← Home</a>
+
+        <select id="langSelect">
+          <option value="en">English</option>
+          <option value="es">Spanish</option>
+          <option value="fr">French</option>
+          <option value="de">German</option>
+          <option value="hi">Hindi</option>
+        </select>
+
+        <button id="themeBtn">🌙 Dark Mode</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="heading">
+      <h1>Branding Dashboard</h1>
+      <p>
+        Use the tabs below to explore brand names, logos, marketing content, design systems,
+        sentiment analysis, and branding chat.
+      </p>
+    </div>
+
+    <!-- TAB BUTTONS -->
+    <div class="tabs">
+      <button class="tab-btn active" data-tab="brand">Brand</button>
+      <button class="tab-btn" data-tab="logo">Logo</button>
+      <button class="tab-btn" data-tab="content">Content</button>
+      <button class="tab-btn" data-tab="design">Design</button>
+      <button class="tab-btn" data-tab="sentiment">Sentiment</button>
+      <button class="tab-btn" data-tab="chat">Chat</button>
+    </div>
+
+    <!-- BRAND TAB -->
+    <div id="brand" class="tab-content active">
+      <div class="page-header">
+        <h2>🧠 Brand Names Generator</h2>
+        <p>Enter keywords and generate creative brand names.</p>
+      </div>
+
+      <div class="form-grid">
+        <div class="field">
+          <label>Keywords</label>
+          <input id="brandKeywords" type="text" placeholder="Ex: eco, fresh, organic" />
+        </div>
+
+        <div class="field">
+          <label>Industry</label>
+          <input id="brandIndustry" type="text" placeholder="Ex: Food, Fashion, Tech" />
+        </div>
+
+        <div class="field">
+          <label>Tone</label>
+          <input id="brandTone" type="text" placeholder="Ex: modern, premium, playful" />
+        </div>
+
+        <div class="field full">
+          <label>Extra Notes (Optional)</label>
+          <textarea id="brandNotes" placeholder="Ex: must sound short and global..."></textarea>
+        </div>
+      </div>
+
+      <div class="actions">
+        <button class="primary" onclick="generateBrand()">Generate</button>
+        <button class="secondary" onclick="clearOutput('brandOut')">Clear</button>
+      </div>
+
+      <div id="brandOut" class="output">Output will appear here...</div>
+    </div>
+
+    <!-- LOGO TAB -->
+    <div id="logo" class="tab-content">
+      <div class="page-header">
+        <h2>🎨 Logo Generator</h2>
+        <p>Generate logo concepts and descriptions.</p>
+      </div>
+
+      <div class="form-grid">
+        <div class="field">
+          <label>Brand Name</label>
+          <input id="logoName" type="text" placeholder="Ex: GreenGlow" />
+        </div>
+
+        <div class="field">
+          <label>Style</label>
+          <input id="logoStyle" type="text" placeholder="Ex: minimal, modern, abstract" />
+        </div>
+
+        <div class="field full">
+          <label>Keywords</label>
+          <textarea id="logoKeywords" placeholder="Ex: leaf, sun, circle, clean..."></textarea>
+        </div>
+      </div>
+
+      <div class="actions">
+        <button class="primary" onclick="generateLogo()">Generate</button>
+        <button class="secondary" onclick="clearOutput('logoOut')">Clear</button>
+      </div>
+
+      <div id="logoOut" class="output">Output will appear here...</div>
+    </div>
+
+    <!-- CONTENT TAB -->
+    <div id="content" class="tab-content">
+      <div class="page-header">
+        <h2>📝 Marketing Content</h2>
+        <p>Generate descriptions, posts, and ads.</p>
+      </div>
+
+      <div class="form-grid">
+        <div class="field">
+          <label>Brand Name</label>
+          <input id="contentName" type="text" placeholder="Ex: FitFuel" />
+        </div>
+
+        <div class="field">
+          <label>Content Type</label>
+          <input id="contentType" type="text" placeholder="Ex: Instagram caption / Product description" />
+        </div>
+
+        <div class="field">
+          <label>Tone</label>
+          <input id="contentTone" type="text" placeholder="Ex: friendly, premium, bold" />
+        </div>
+
+        <div class="field full">
+          <label>Brand Description</label>
+          <textarea id="contentDesc" placeholder="Describe your product/service..."></textarea>
+        </div>
+      </div>
+
+      <div class="actions">
+        <button class="primary" onclick="generateContent()">Generate</button>
+        <button class="secondary" onclick="clearOutput('contentOut')">Clear</button>
+      </div>
+
+      <div id="contentOut" class="output">Output will appear here...</div>
+    </div>
+
+    <!-- DESIGN TAB -->
+    <div id="design" class="tab-content">
+      <div class="page-header">
+        <h2>🎭 Design System</h2>
+        <p>Get color palettes and font recommendations.</p>
+      </div>
+
+      <div class="form-grid">
+        <div class="field">
+          <label>Industry</label>
+          <input id="designIndustry" type="text" placeholder="Ex: Healthcare, Education, E-commerce" />
+        </div>
+
+        <div class="field">
+          <label>Tone</label>
+          <input id="designTone" type="text" placeholder="Ex: calm, futuristic, luxury" />
+        </div>
+
+        <div class="field full">
+          <label>Brand Keywords</label>
+          <textarea id="designKeywords" placeholder="Ex: clean, trustworthy, modern..."></textarea>
+        </div>
+      </div>
+
+      <div class="actions">
+        <button class="primary" onclick="generateDesign()">Generate</button>
+        <button class="secondary" onclick="clearOutput('designOut')">Clear</button>
+      </div>
+
+      <div id="designOut" class="output">Output will appear here...</div>
+    </div>
+
+    <!-- SENTIMENT TAB -->
+    <div id="sentiment" class="tab-content">
+      <div class="page-header">
+        <h2>🧾 Review Analyzer</h2>
+        <p>Analyze and rewrite reviews in professional tone.</p>
+      </div>
+
+      <div class="form-grid">
+        <div class="field full">
+          <label>Paste Review Text</label>
+          <textarea id="sentimentText" placeholder="Paste customer review here..."></textarea>
+        </div>
+      </div>
+
+      <div class="actions">
+        <button class="primary" onclick="analyzeSentiment()">Analyze</button>
+        <button class="secondary" onclick="clearOutput('sentimentOut')">Clear</button>
+      </div>
+
+      <div id="sentimentOut" class="output">Output will appear here...</div>
+    </div>
+
+    <!-- CHAT TAB -->
+    <div id="chat" class="tab-content">
+      <div class="page-header">
+        <h2>💬 Branding Chat</h2>
+        <p>Ask questions about branding.</p>
+      </div>
+
+      <div class="form-grid">
+        <div class="field full">
+          <label>Your Question</label>
+          <textarea id="chatQ" placeholder="Ex: Suggest a slogan for a skincare brand..."></textarea>
+        </div>
+      </div>
+
+      <div class="actions">
+        <button class="primary" onclick="sendChat()">Ask</button>
+        <button class="secondary" onclick="clearOutput('chatOut')">Clear</button>
+      </div>
+
+      <div id="chatOut" class="output">Output will appear here...</div>
+    </div>
+
+    <footer>
+      © 2025 BizForge | Model Credits: IBM Granite, Groq AI, SDXL
+    </footer>
+  </div>
+
+  <script>
+    // THEME
+    const themeBtn = document.getElementById("themeBtn");
+    const body = document.body;
+
+    function setTheme(mode) {
+      if (mode === "light") {
+        body.classList.add("light");
+        themeBtn.textContent = "☀️ Light Mode";
+        localStorage.setItem("theme", "light");
+      } else {
+        body.classList.remove("light");
+        themeBtn.textContent = "🌙 Dark Mode";
+        localStorage.setItem("theme", "dark");
+      }
+    }
+
+    setTheme(localStorage.getItem("theme") || "dark");
+
+    themeBtn.addEventListener("click", () => {
+      const isLight = body.classList.contains("light");
+      setTheme(isLight ? "dark" : "light");
+    });
+
+    // LANGUAGE SELECT (placeholder)
+    document.getElementById("langSelect").addEventListener("change", (e) => {
+      alert("Language selected: " + e.target.value + " (UI only for now)");
+    });
+
+    // TAB SWITCHING
+    const tabButtons = document.querySelectorAll(".tab-btn");
+    const tabContents = document.querySelectorAll(".tab-content");
+
+    tabButtons.forEach(btn => {
+      btn.addEventListener("click", () => {
+        tabButtons.forEach(b => b.classList.remove("active"));
+        tabContents.forEach(c => c.classList.remove("active"));
+
+        btn.classList.add("active");
+        document.getElementById(btn.dataset.tab).classList.add("active");
+      });
+    });
+
+    // OUTPUT HELPERS
+    function clearOutput(id) {
+      document.getElementById(id).innerHTML = "Output will appear here...";
+    }
+
+    function setOutput(id, html) {
+      document.getElementById(id).innerHTML = html;
+    }
+
+    // DUMMY GENERATORS (Frontend only)
+    function generateBrand() {
+      const k = document.getElementById("brandKeywords").value || "your keywords";
+      const i = document.getElementById("brandIndustry").value || "your industry";
+      const t = document.getElementById("brandTone").value || "your tone";
+
+      setOutput("brandOut", `
+        <b>Generated Brand Names (Sample):</b><br><br>
+        • ${k.split(",")[0].trim() || "Nova"}${i.trim().slice(0,2)}<br>
+        • ${t.trim().slice(0,4) || "Glow"}Craft<br>
+        • ${i.trim().slice(0,4) || "Zen"}${k.trim().slice(0,4) || "Edge"}<br><br>
+        <span style="opacity:0.9;">(Backend API integration can replace this sample output.)</span>
+      `);
+    }
+
+    function generateLogo() {
+      const name = document.getElementById("logoName").value || "Your Brand";
+      const style = document.getElementById("logoStyle").value || "minimal";
+
+      setOutput("logoOut", `
+        <b>Logo Concept:</b><br><br>
+        Brand: <b>${name}</b><br>
+        Style: <b>${style}</b><br><br>
+        Suggestion: A clean icon + bold typography with modern spacing.
+      `);
+    }
+
+    function generateContent() {
+      const name = document.getElementById("contentName").value || "Your Brand";
+      const type = document.getElementById("contentType").value || "caption";
+      const tone = document.getElementById("contentTone").value || "friendly";
+
+      setOutput("contentOut", `
+        <b>Generated ${type} (${tone}):</b><br><br>
+        Meet <b>${name}</b> — designed to make your life easier, smarter, and better.<br>
+        Try it today and feel the difference ✨
+      `);
+    }
+
+    function generateDesign() {
+      const industry = document.getElementById("designIndustry").value || "your industry";
+      const tone = document.getElementById("designTone").value || "modern";
+
+      setOutput("designOut", `
+        <b>Design System Suggestion:</b><br><br>
+        Industry: <b>${industry}</b><br>
+        Tone: <b>${tone}</b><br><br>
+        • Colors: Primary + Secondary + Neutral palette<br>
+        • Fonts: Clean heading font + readable body font<br>
+        • UI Style: Rounded cards, soft shadows, consistent spacing
+      `);
+    }
+
+    function analyzeSentiment() {
+      const text = document.getElementById("sentimentText").value.trim();
+
+      if (!text) {
+        setOutput("sentimentOut", "⚠️ Please paste a review first.");
+        return;
+      }
+
+      setOutput("sentimentOut", `
+        <b>Sentiment:</b> Positive / Neutral (Sample)<br><br>
+        <b>Professional Rewrite:</b><br>
+        ${text.replaceAll("\n", "<br>")}<br><br>
+        <i>(Backend sentiment API can be connected here.)</i>
+      `);
+    }
+
+    function sendChat() {
+      const q = document.getElementById("chatQ").value.trim();
+
+      if (!q) {
+        setOutput("chatOut", "⚠️ Please type a question first.");
+        return;
+      }
+
+      setOutput("chatOut", `
+        <b>You:</b> ${q}<br><br>
+        <b>BizForge Bot:</b> Great question! A strong brand focuses on clarity, consistency, and trust.
+        (Sample response)
+      `);
+    }
+  </script>
+</body>
+</html>
