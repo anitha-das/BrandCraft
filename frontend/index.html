@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BizForge - Brand with AI</title>
+
+  <style>
+    :root {
+      --bg1: #4c1d95;
+      --bg2: #1e40af;
+      --card: rgba(255, 255, 255, 0.12);
+      --card2: rgba(255, 255, 255, 0.18);
+      --text: #ffffff;
+      --muted: rgba(255, 255, 255, 0.8);
+      --border: rgba(255, 255, 255, 0.18);
+      --shadow: 0 18px 50px rgba(0, 0, 0, 0.25);
+      --accent: #22c55e;
+    }
+
+    body.light {
+      --bg1: #eef2ff;
+      --bg2: #dbeafe;
+      --card: rgba(255, 255, 255, 0.75);
+      --card2: rgba(255, 255, 255, 0.95);
+      --text: #0f172a;
+      --muted: rgba(15, 23, 42, 0.7);
+      --border: rgba(15, 23, 42, 0.12);
+      --shadow: 0 18px 50px rgba(15, 23, 42, 0.10);
+      --accent: #16a34a;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      background: linear-gradient(135deg, var(--bg1), var(--bg2));
+      color: var(--text);
+      overflow-x: hidden;
+    }
+
+    a { text-decoration: none; color: inherit; }
+
+    /* NAVBAR */
+    .navbar {
+      position: sticky;
+      top: 0;
+      z-index: 999;
+      width: 100%;
+      padding: 14px 18px;
+      backdrop-filter: blur(16px);
+      background: rgba(0, 0, 0, 0.15);
+      border-bottom: 1px solid var(--border);
+    }
+
+    body.light .navbar {
+      background: rgba(255, 255, 255, 0.55);
+    }
+
+    .nav-inner {
+      max-width: 1200px;
+      margin: auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 800;
+      letter-spacing: 0.2px;
+      font-size: 18px;
+    }
+
+    .brand .logo {
+      width: 38px;
+      height: 38px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, #22c55e, #60a5fa);
+      box-shadow: var(--shadow);
+    }
+
+    .nav-controls {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    select, button {
+      border: 1px solid var(--border);
+      background: rgba(255, 255, 255, 0.08);
+      color: var(--text);
+      padding: 10px 12px;
+      border-radius: 14px;
+      outline: none;
+      cursor: pointer;
+      transition: transform 0.2s ease, background 0.2s ease;
+    }
+
+    body.light select, body.light button {
+      background: rgba(255, 255, 255, 0.75);
+    }
+
+    button:hover, select:hover {
+      transform: translateY(-1px);
+      background: rgba(255, 255, 255, 0.12);
+    }
+
+    /* HERO */
+    .container {
+      max-width: 1200px;
+      margin: auto;
+      padding: 34px 18px 70px;
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 24px;
+      align-items: center;
+      margin-top: 20px;
+    }
+
+    .hero h1 {
+      font-size: clamp(30px, 4vw, 52px);
+      line-height: 1.08;
+      font-weight: 900;
+      background: linear-gradient(90deg, #ffffff, #93c5fd, #34d399);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      letter-spacing: -0.8px;
+    }
+
+    body.light .hero h1 {
+      background: linear-gradient(90deg, #0f172a, #1d4ed8, #16a34a);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .hero p {
+      margin-top: 14px;
+      font-size: 16px;
+      line-height: 1.6;
+      color: var(--muted);
+      max-width: 640px;
+    }
+
+    .hero-actions {
+      margin-top: 20px;
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .cta {
+      padding: 12px 16px;
+      border-radius: 16px;
+      font-weight: 700;
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow);
+    }
+
+    .cta.primary {
+      background: linear-gradient(135deg, #22c55e, #3b82f6);
+      border: none;
+      color: white;
+    }
+
+    .cta.secondary {
+      background: rgba(255, 255, 255, 0.08);
+    }
+
+    .hero-card {
+      border: 1px solid var(--border);
+      background: var(--card);
+      border-radius: 22px;
+      padding: 18px;
+      box-shadow: var(--shadow);
+      transform: translateY(0);
+      transition: transform 0.25s ease;
+    }
+
+    .hero-card:hover { transform: translateY(-4px); }
+
+    .hero-card h3 {
+      font-size: 18px;
+      font-weight: 800;
+      margin-bottom: 10px;
+    }
+
+    .hero-card ul {
+      list-style: none;
+      display: grid;
+      gap: 10px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .hero-card li {
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+    }
+
+    .dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 999px;
+      background: var(--accent);
+      margin-top: 5px;
+      flex: 0 0 auto;
+    }
+
+    /* FEATURE GRID */
+    .section-title {
+      margin-top: 55px;
+      margin-bottom: 18px;
+      font-size: 22px;
+      font-weight: 900;
+      letter-spacing: -0.3px;
+    }
+
+    .features {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+
+    .card {
+      border: 1px solid var(--border);
+      background: var(--card);
+      border-radius: 22px;
+      padding: 18px;
+      box-shadow: var(--shadow);
+      transition: transform 0.25s ease;
+    }
+
+    .card:hover { transform: translateY(-4px); }
+
+    .card h4 {
+      font-size: 16px;
+      font-weight: 900;
+      margin-bottom: 8px;
+    }
+
+    .card p {
+      font-size: 14px;
+      line-height: 1.55;
+      color: var(--muted);
+    }
+
+    /* INFO */
+    .info {
+      margin-top: 55px;
+      border: 1px solid var(--border);
+      background: var(--card2);
+      border-radius: 22px;
+      padding: 22px;
+      box-shadow: var(--shadow);
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 18px;
+      align-items: center;
+    }
+
+    .info h2 {
+      font-size: 22px;
+      font-weight: 900;
+      margin-bottom: 10px;
+    }
+
+    .info p {
+      color: var(--muted);
+      line-height: 1.6;
+      font-size: 14px;
+    }
+
+    .pill {
+      display: inline-block;
+      padding: 8px 12px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: rgba(255, 255, 255, 0.08);
+      margin: 6px 6px 0 0;
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    /* FOOTER */
+    footer {
+      margin-top: 60px;
+      padding: 18px;
+      text-align: center;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 950px) {
+      .hero { grid-template-columns: 1fr; }
+      .features { grid-template-columns: repeat(2, 1fr); }
+      .info { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 560px) {
+      .features { grid-template-columns: 1fr; }
+      select, button { width: 100%; }
+      .nav-controls { flex-direction: column; width: 100%; }
+      .nav-inner { flex-direction: column; align-items: stretch; }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- NAVBAR -->
+  <div class="navbar">
+    <div class="nav-inner">
+      <div class="brand">
+        <div class="logo"></div>
+        <span>BizForge</span>
+      </div>
+
+      <div class="nav-controls">
+        <select id="langSelect">
+          <option value="en">English</option>
+          <option value="es">Spanish</option>
+          <option value="fr">French</option>
+          <option value="de">German</option>
+          <option value="hi">Hindi</option>
+        </select>
+
+        <button id="themeBtn">🌙 Dark Mode</button>
+
+        <a class="cta primary" href="branding.html">Get Started →</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- MAIN -->
+  <div class="container">
+    <div class="hero">
+      <div>
+        <h1>Build Your Brand with AI ✨</h1>
+        <p>
+          BizForge helps you generate brand names, logos, marketing content,
+          design systems, sentiment analysis, and a branding chatbot — all in one modern UI.
+        </p>
+
+        <div class="hero-actions">
+          <a class="cta primary" href="branding.html">Explore Branding Tools</a>
+          <a class="cta secondary" href="#features">View Features</a>
+        </div>
+      </div>
+
+      <div class="hero-card">
+        <h3>What you can do</h3>
+        <ul>
+          <li><span class="dot"></span> Generate unique brand names</li>
+          <li><span class="dot"></span> Create logo concepts</li>
+          <li><span class="dot"></span> Write marketing content</li>
+          <li><span class="dot"></span> Get color palettes & fonts</li>
+          <li><span class="dot"></span> Analyze & rewrite reviews</li>
+          <li><span class="dot"></span> Ask the Branding Chatbot</li>
+        </ul>
+      </div>
+    </div>
+
+    <h2 class="section-title" id="features">Interactive Feature Cards</h2>
+
+    <div class="features">
+      <div class="card">
+        <h4>🚀 Brand Name Generator</h4>
+        <p>Enter keywords, choose industry, select tone, and generate creative brand names instantly.</p>
+      </div>
+
+      <div class="card">
+        <h4>🎨 Logo Generator</h4>
+        <p>Generate logo concepts and descriptions using AI-style prompts for your brand identity.</p>
+      </div>
+
+      <div class="card">
+        <h4>📝 Marketing Content</h4>
+        <p>Create descriptions, captions, posts, and ad copy for your product or service.</p>
+      </div>
+
+      <div class="card">
+        <h4>🧩 Design System</h4>
+        <p>Get color palettes, font pairings, and style recommendations for consistent branding.</p>
+      </div>
+
+      <div class="card">
+        <h4>💬 Sentiment Analyzer</h4>
+        <p>Paste customer reviews to analyze sentiment and rewrite them in a professional tone.</p>
+      </div>
+
+      <div class="card">
+        <h4>🤖 Branding Chat</h4>
+        <p>Ask branding questions and receive expert guidance from the BizForge chatbot.</p>
+      </div>
+    </div>
+
+    <div class="info">
+      <div>
+        <h2>Why Choose BizForge?</h2>
+        <p>
+          A premium, responsive UI with smooth animations, multilingual support,
+          light/dark mode, and modular tool pages — designed for clean frontend integration
+          with backend APIs.
+        </p>
+
+        <div style="margin-top: 10px;">
+          <span class="pill">Responsive Grid</span>
+          <span class="pill">Sticky Navbar</span>
+          <span class="pill">Theme Toggle</span>
+          <span class="pill">Language Support</span>
+          <span class="pill">Modern UI/UX</span>
+        </div>
+      </div>
+
+      <div>
+        <a class="cta primary" style="display:inline-block;" href="branding.html">
+          Open Branding Dashboard →
+        </a>
+      </div>
+    </div>
+
+    <footer>
+      © 2025 BizForge | Model Credits: IBM Granite, Groq AI, SDXL
+    </footer>
+  </div>
+
+  <script>
+    // THEME TOGGLE
+    const themeBtn = document.getElementById("themeBtn");
+    const body = document.body;
+
+    function setTheme(mode) {
+      if (mode === "light") {
+        body.classList.add("light");
+        themeBtn.textContent = "☀️ Light Mode";
+        localStorage.setItem("theme", "light");
+      } else {
+        body.classList.remove("light");
+        themeBtn.textContent = "🌙 Dark Mode";
+        localStorage.setItem("theme", "dark");
+      }
+    }
+
+    const savedTheme = localStorage.getItem("theme") || "dark";
+    setTheme(savedTheme);
+
+    themeBtn.addEventListener("click", () => {
+      const isLight = body.classList.contains("light");
+      setTheme(isLight ? "dark" : "light");
+    });
+
+    // LANGUAGE SELECT (UI placeholder)
+    document.getElementById("langSelect").addEventListener("change", (e) => {
+      alert("Language selected: " + e.target.value + " (UI only for now)");
+    });
+  </script>
+</body>
+</html>
+
+
+

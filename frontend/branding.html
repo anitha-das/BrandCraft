@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>BizForge – Branding Tools</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+ \<style>
+  /* Body and global */
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #4c1d95, #1e40af);
+    color: white;
+    padding: 20px;
+    margin: 0;
+  }
+
+  h1 {
+    text-align: center;
+    font-size: 36px;
+    margin-bottom: 30px;
+    text-shadow: 1px 1px 5px rgba(0,0,0,0.4);
+  }
+
+  h2 {
+    margin-top: 20px;
+    font-size: 24px;
+    border-bottom: 1px solid rgba(255,255,255,0.3);
+    padding-bottom: 6px;
+  }
+
+  /* Card styling */
+  .card {
+    background: rgba(255,255,255,0.12);
+    padding: 20px;
+    border-radius: 16px;
+    margin-bottom: 25px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+
+  .card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 18px rgba(0,0,0,0.5);
+  }
+
+  /* Inputs, textarea, selects, buttons */
+  input, textarea, select, button {
+    width: 100%;
+    padding: 12px;
+    margin: 8px 0;
+    border-radius: 12px;
+    border: none;
+    font-size: 16px;
+    outline: none;
+    box-sizing: border-box;
+  }
+
+  input, textarea, select {
+    background: rgba(255,255,255,0.1);
+    color: white;
+  }
+
+  select {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-image: url("data:image/svg+xml;charset=US-ASCII,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12'><polygon points='0,0 12,0 6,6' fill='white'/></svg>");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    background-size: 12px 12px;
+  }
+  select option {
+  background-color: #4d0bb7; /* dark background for dropdown items */
+  color: white; /* text color of items */
+}
+  button {
+    background: linear-gradient(90deg, #22c55e, #38bdf8);
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.3s, transform 0.2s;
+  }
+
+  button:hover {
+    background: linear-gradient(90deg, #38bdf8, #22c55e);
+    transform: scale(1.02);
+  }
+
+  /* Output */
+  .output {
+    background: rgba(0,0,0,0.3);
+    padding: 12px;
+    border-radius: 12px;
+    margin-top: 10px;
+    white-space: pre-wrap;
+    min-height: 50px;
+  }
+
+  /* Images */
+ img {
+  max-width: 100%;       /* keeps width responsive */
+  max-height: 300px;     /* limits height to 300px */
+  object-fit: contain;   /* scales image without distortion */
+  border-radius: 14px;
+  margin-top: 10px;
+  display: block;        /* This tells the browser the image is a block */
+  margin-left: auto;     /* Pushes from the left */
+  margin-right: auto;
+}
+</style>
+
+</head>
+
+<body>
+
+<h1>🚀 BizForge Branding Dashboard</h1>
+
+<!-- LANGUAGE -->
+<select id="langSelect">
+  <option value="en">English</option>
+  <option value="hi">Hindi</option>
+</select>
+
+<!-- BRAND NAME -->
+<div class="card">
+  <h2>Brand Name Generator</h2>
+  <input id="brandIndustry" placeholder="Industry (e.g. Fashion)">
+  <input id="brandKeywords" placeholder="Keywords (comma separated)">
+  <select id="brandTone">
+    <option value="modern">Modern</option>
+    <option value="professional">Professional</option>
+    <option value="creative">Creative</option>
+  </select>
+  <button onclick="generateBrand()">Generate Brand</button>
+  <div id="brandOut" class="output"></div>
+</div>
+
+<!-- LOGO -->
+<!-- LOGO -->
+<div class="card">
+  <h2>Logo Generator</h2>
+  <textarea id="logoPrompt" placeholder="Enter prompt for logo"></textarea>
+  <button onclick="generateLogo()">Generate Logo</button>
+  <div id="logoOut" class="output"></div>
+</div>
+
+<!-- CONTENT -->
+<div class="card">
+  <h2>Marketing Content</h2>
+  <input id="contentName" placeholder="Brand Name">
+  <textarea id="contentDesc" placeholder="Brand Description"></textarea>
+  <select id="contentType">
+    <option value="product_description">Product Description</option>
+    <option value="social_post">Social Media Post</option>
+  </select>
+  <select id="contentTone">
+    <option value="professional">Professional</option>
+    <option value="friendly">Friendly</option>
+  </select>
+  <button onclick="generateContent()">Generate Content</button>
+  <div id="contentOut" class="output"></div>
+</div>
+
+<!-- DESIGN -->
+<div class="card">
+  <h2>Color Palette</h2>
+  <input id="designIndustry" placeholder="Industry">
+  <select id="designTone">
+    <option value="modern">Modern</option>
+    <option value="luxury">Luxury</option>
+  </select>
+  <button onclick="generateDesign()">Generate Colors</button>
+  <div id="designOut" class="output"></div>
+</div>
+
+<!-- SENTIMENT -->
+<div class="card">
+  <h2>Sentiment Analyzer</h2>
+  <textarea id="sentimentText" placeholder="Paste customer review"></textarea>
+  <button onclick="analyzeSentiment()">Analyze</button>
+  <div id="sentimentOut" class="output"></div>
+</div>
+
+<!-- CHAT -->
+<div class="card">
+  <h2>Branding Chatbot</h2>
+  <input id="chatQ" placeholder="Ask branding question">
+  <button onclick="sendChat()">Send</button>
+  <div id="chatOut" class="output"></div>
+</div>
+
+<script>
+function formatText(text) {
+  if (!text) return "";
+  return text.toString().replace(/\n/g, "<br>");
+}
+
+async function postJSON(url, body) {
+  const res = await fetch(url, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(body)
+  });
+  const data = await res.json();
+  if (!data.success) throw new Error(data.detail);
+  return data.data;
+}
+
+function setOutput(id, html) {
+  document.getElementById(id).innerHTML = formatText(html);
+}
+
+// Brand Name Generator
+async function generateBrand() {
+  setOutput("brandOut", "⏳ Loading...");
+  const data = await postJSON("/api/generate-brand", {
+    industry: brandIndustry.value,
+    keywords: brandKeywords.value,
+    tone: brandTone.value,
+    language: langSelect.value
+  });
+  // Convert array or string to line-separated text
+  const textOutput = Array.isArray(data) ? data.join("\n") : data;
+  setOutput("brandOut", textOutput);
+}
+
+// Logo Generator
+async function generateLogo() {
+  setOutput("logoOut", "⏳ Generating...");
+  const prompt = logoPrompt.value;  // take input directly
+
+  if (!prompt) {
+    setOutput("logoOut", "❌ Please enter a prompt for the logo.");
+    return;
+  }
+
+  const image = await postJSON("/api/generate-logo-image", {
+    logo_prompt: prompt
+  });
+
+  // Show ONLY the image
+  setOutput("logoOut", `<img src="${image.image_url}">`);
+}
+
+// Marketing Content Generator
+async function generateContent() {
+  setOutput("contentOut", "⏳ Loading...");
+  const data = await postJSON("/api/generate-content", {
+    brand_name: contentName.value,
+    brand_description: contentDesc.value,
+    content_type: contentType.value,
+    tone: contentTone.value,
+    language: langSelect.value
+  });
+  // If object, convert to lines
+  const textOutput = typeof data === "string" ? data :
+                     Object.entries(data).map(([k,v]) => `${k}: ${v}`).join("\n");
+  setOutput("contentOut", textOutput);
+}
+
+// Design / Color Palette
+async function generateDesign() {
+  setOutput("designOut", "⏳ Loading...");
+  const data = await postJSON("/api/get-colors", {
+    industry: designIndustry.value,
+    tone: designTone.value
+  });
+  const textOutput = Array.isArray(data) ? data.join("\n") :
+                     typeof data === "string" ? data :
+                     Object.entries(data).map(([k,v]) => `${k}: ${v}`).join("\n");
+  setOutput("designOut", textOutput);
+}
+
+// Sentiment Analyzer
+async function analyzeSentiment() {
+  setOutput("sentimentOut", "⏳ Loading...");
+  const data = await postJSON("/api/analyze-sentiment", {
+    text: sentimentText.value
+  });
+  const textOutput = typeof data === "string" ? data :
+                     Object.entries(data).map(([k,v]) => `${k}: ${v}`).join("\n");
+  setOutput("sentimentOut", textOutput);
+}
+
+// Branding Chatbot
+async function sendChat() {
+  setOutput("chatOut", "⏳ Thinking...");
+  const data = await postJSON("/api/chat", {
+    message: chatQ.value
+  });
+  const textOutput = typeof data === "string" ? data :
+                     Object.entries(data).map(([k,v]) => `${k}: ${v}`).join("\n");
+  setOutput("chatOut", textOutput);
+}
+</script>
+
+</body>
+</html>
